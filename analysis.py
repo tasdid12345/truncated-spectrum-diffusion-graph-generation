@@ -77,7 +77,7 @@ def run(K, seed, tr, val_ref, test_ref):
     idx = np.repeat(np.arange(len(X)), REP); t = rng.integers(0, T, len(idx))
     eps = rng.standard_normal((len(idx), X.shape[1]))
     xt = np.sqrt(ab[t])[:, None] * X[idx] + np.sqrt(1 - ab[t])[:, None] * eps
-    net = MLPRegressor(HID, batch_size=128, max_iter=EPOCHS, random_state=seed).fit(np.c_[xt, t / T], eps)
+    net = MLPRegressor(hidden_layer_sizes=HID, batch_size=128, max_iter=EPOCHS, random_state=seed).fit(np.c_[xt, t / T], eps)
     x = rng.standard_normal((NGEN, X.shape[1]))  # ancestral DDPM sampling
     for s in reversed(range(T)):
         e = net.predict(np.c_[x, np.full(NGEN, s / T)])
